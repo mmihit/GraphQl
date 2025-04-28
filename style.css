@@ -1,6 +1,6 @@
 /* Reset */
 :root{
-    --beige:#F5EEDC;
+    --beige:#ffffff;
     --blue1:#27548A;
     --blue2:#183B4E;
     --yellow:#DDA853;
@@ -16,8 +16,9 @@
 body {
     font-family: 'Arial', sans-serif;
     background-color: var(--beige);
-    min-height: 100vh;
+    /* min-height: 100vh; */
 }
+
 
 /* Container */
 .container {
@@ -199,37 +200,47 @@ h3 {
 
 /*--------------Login Section :--------------- */
 
-/* body {
-    font-family: Arial, sans-serif;
-    background: #f0f0f0;
+.container1 {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-  } */
-  .container1 {
-    background: white;
+    background: #ffffff;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    width: 300px;
-    display: none; /* Hide initially */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 320px;
+    margin: 320px auto;
   }
-  .show {
-    display: block;
-  }
+  
   input, button {
     width: 100%;
-    padding: 10px;
-    margin-top: 8px;
-    margin-bottom: 16px;
-    border-radius: 4px;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
   }
+  
   button {
-    background: #007BFF;
+    background-color: #007BFF;
     color: white;
     border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
   }
+  
   button:hover {
-    background: #0056b3;
+    background-color: #0056b3;
   }
+  
+  .login-error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  

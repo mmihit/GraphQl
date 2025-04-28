@@ -26,3 +26,5 @@ async function queryData(token, query) {
         return null;
     }  
 }
+
+export {queryData}

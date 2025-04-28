@@ -1,18 +1,21 @@
-const Login = `
+const login = `
 
-    <div id="loginPage" class="container1">
-    <h2>Login</h2>
-    <form id="loginForm">
-        <input type="text" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-        <p id="loginError" style="color: red; margin-top: 10px;"></p>
-    </form>
+   <div id="loginPage" class="container1">
+  <h2>Login</h2>
+  <form id="loginForm">
+    <input type="text" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+    <div class="login-error hidden">
+      <p>Invalid email or password</p>
     </div>
-   
-`
+  </form>
+</div>
 
-const Profile = `
+   
+`;
+
+const profile = `
 
      <header>
         <div class="container">
@@ -21,7 +24,7 @@ const Profile = `
             </div>
 
             <div class="logout-section">
-                <button>Logout</button>
+                <button type="button" id="logout-btn">Logout</button>
             </div>
 
         </div>
@@ -63,6 +66,6 @@ const Profile = `
         </div>
         </div>
     </main>
-`
+`;
 
-export {Login, Profile}
+export {login, profile}
