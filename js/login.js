@@ -36,9 +36,9 @@ export function handleLoginEvents() {
 
     document.querySelector("form").addEventListener("submit", (event) => {
         event.preventDefault()
-        const identifier = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        login(identifier, password);
+        const identifier = document.getElementById("email");
+        const password = document.getElementById("password");
+        login(identifier.value, password.value);
         identifier.value = "";
         password.value = "";
     } )

@@ -1,8 +1,7 @@
 import { renderLogin } from "./index.js";
 
 
-export function setLogout() {
-    const btn = document.getElementById('logout-btn');
+export function setLogout(btn) {
     if (btn) {
         btn.addEventListener("click", (even) => {
             even.preventDefault();

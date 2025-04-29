@@ -1,11 +1,11 @@
 
 import { handleLoginEvents } from "./login.js";
 import { queryData } from "./query.js";
-import { login , profile} from "./templat.js";
+import { login, profile } from "./templat.js";
+import { HeaderInfo } from "./headerViewData.js";
 
 
 const token = localStorage.getItem("jwt");
-
 
 async function App() {
     try {
@@ -14,6 +14,7 @@ async function App() {
             if (user) {
                 console.log("Profile Page of user : ", user);
                 renderProfile();
+                console.log(HeaderInfo());
             } else {
                 console.log("Login Page of user : ");
                 renderLogin();
@@ -29,7 +30,7 @@ async function App() {
 }
 
 export function renderProfile() {
-    
+
     document.body.innerHTML = profile;
 }
 

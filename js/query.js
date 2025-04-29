@@ -18,7 +18,7 @@ async function queryData(token, query) {
         
         const data = await response.json();
     
-        return data || null;
+        return data.data || null;
 
     } catch (error) {
 
