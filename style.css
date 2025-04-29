@@ -1,9 +1,10 @@
 /* Reset */
-:root{
-    --beige:#F5EEDC;
-    --blue1:#27548A;
-    --blue2:#183B4E;
-    --yellow:#DDA853;
+:root {
+    --beige: #F5EEDC;
+    --blue1: #27548A;
+    --blue2: #183B4E;
+    --yellow: #DDA853;
+    --cold-white: #f9f9f9;
 }
 
 * {
@@ -52,7 +53,7 @@ header .container {
 
 .logout-section button {
     background-color: var(--blue1);
-    color: var(--beige) ;
+    color: var(--beige);
     outline: 2px solid beige;
     border: none;
     padding: 10px 20px;
@@ -85,16 +86,24 @@ header .container {
 .xp-and-level-box {
     display: flex;
     flex-direction: column;
-    background-color: #f9f9f9;
+    background-color: var(--cold-white);
     border-radius: 8px;
-    padding: 20px;
+    padding: 20px 70px;
+    gap: 15px;
     justify-content: space-around;
 }
 
-.level-box h2,
-.xp-box h2 {
+.xp-and-level-box h2 {
     font-size: 22px;
     color: var(--blue1);
+    text-align: center;
+}
+
+.xp-text {
+    color: var(--yellow);
+    font-size: 2em;
+    text-align: center;
+    font-weight: 600;
 }
 
 /* Audit Ratio Box */
@@ -102,19 +111,32 @@ header .container {
     background-color: #f9f9f9;
     border-radius: 8px;
     padding: 20px;
-}
-
-.audit-details {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
-.stats {
-    width: 45%;
-    height: 20px;
-    background-color: #ddd;
-    border-radius: 10px;
+/* .audit-details {
+    width: 275px; */
+    /* margin-bottom: 10px;
+} */
+
+.stats-box {
+    display: flex;
+    /* gap: 25px; */
+    margin-bottom: 25px;
+}
+
+.stats-box p {
+    color: var(--yellow);
+    font-weight: 600;
+    word-break: break-all;
+}
+
+.audit-graph {
+    width: 150px;
+    min-width: 150px;
 }
 
 .audit-main {
@@ -126,6 +148,13 @@ header .container {
     height: 25px;
     background-color: var(--blue1);
     border-radius: 12px;
+}
+
+.xp-text, .ratio-text {
+    text-align: center;
+    font-size: 2em;
+    font-weight: 600;
+    color: var(--yellow)
 }
 
 /* Skills and Modules Wrapper */
@@ -145,8 +174,7 @@ header .container {
 }
 
 .general-info .main {
-    display: flex
-;
+    display: flex;
     /* flex-direction: row; */
     gap: 20px;
     justify-content: space-between;
@@ -171,8 +199,9 @@ header .container {
 }
 
 h3 {
-    /* content: "Modules"; */
-    display: block;
+    text-align: center;
+    text-transform: capitalize;
+    /* display: block; */
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 15px;
@@ -194,5 +223,26 @@ h3 {
 
     .skills-modules-wrapper {
         flex-direction: column;
+    }
+
+    .general-info .main {
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
+@media (max-width:425px) {
+    .stats-box {
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 auto;
+    }
+
+    .audit-graph {
+        margin: 0 auto
+    }
+
+    .stats-box p {
+        text-align: center;
     }
 }
