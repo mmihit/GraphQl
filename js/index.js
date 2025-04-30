@@ -2,7 +2,7 @@
 import { handleLoginEvents } from "./login.js";
 import { queryData } from "./query.js";
 import { login, profile } from "./templat.js";
-import { HeaderInfo } from "./headerViewData.js";
+import { moduleInfo } from "./moduleViewData.js";
 
 
 const token = localStorage.getItem("jwt");
@@ -14,7 +14,7 @@ async function App() {
             if (user) {
                 console.log("Profile Page of user : ", user);
                 renderProfile();
-                console.log(HeaderInfo());
+                console.log(moduleInfo());
             } else {
                 console.log("Login Page of user : ");
                 renderLogin();
@@ -27,6 +27,13 @@ async function App() {
         console.error("Error initializing app:", error);
         renderLogin();
     }
+}
+
+export function addScript(fileName) {f
+    const indexScript = document.createElement("script");
+    indexScript.type = "module";
+    indexScript.src = fileName;
+    document.body.appendChild(indexScript);
 }
 
 export function renderProfile() {

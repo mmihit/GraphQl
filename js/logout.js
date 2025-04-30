@@ -1,7 +1,10 @@
 import { renderLogin } from "./index.js";
 
 
-export function setLogout(btn) {
+function setLogout() {
+
+    const btn = document.getElementById('logout-btn');
+    console.log(btn)
     if (btn) {
         btn.addEventListener("click", (even) => {
             even.preventDefault();
@@ -10,3 +13,5 @@ export function setLogout(btn) {
         })
     }
 } 
+setLogout()
+
