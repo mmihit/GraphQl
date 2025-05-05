@@ -1,6 +1,6 @@
 const login = `
 
-   <div id="loginPage" class="container1">
+  <div id="loginPage" class="container1">
   <h2>Login</h2>
   <form id="loginForm">
     <input type="text" id="email" placeholder="Email" required>
