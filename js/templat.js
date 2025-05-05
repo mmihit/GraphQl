@@ -71,6 +71,7 @@ const profile = `
             <div class="skills-modules-wrapper">
                 <div class="module-section" id="module-section">
                     <h3 style="font-weight: 800;">module</h3>
+                    <div class="dot-info-container" id="dot-info-container"></div>
                     <div class="module-graph" id="module-graph"></div>
                 </div>
             </div>
@@ -79,4 +80,4 @@ const profile = `
     <script type="module" src=""
 `;
 
-export {login, profile}
+export { login, profile }

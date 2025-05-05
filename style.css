@@ -117,14 +117,8 @@ header .container {
     justify-content: space-evenly;
 }
 
-/* .audit-details {
-    width: 275px; */
-    /* margin-bottom: 10px;
-} */
-
 .stats-box {
     display: flex;
-    /* gap: 25px; */
     margin-bottom: 25px;
 }
 
@@ -157,27 +151,32 @@ header .container {
     color: var(--yellow)
 }
 
-/* Skills and Modules Wrapper */
+/* Skills and Modules Wrapper
 .skills-modules-wrapper {
     display: flex;
     gap: 20px;
     margin-top: 30px;
-}
+} */
 
 /* Skills Section */
-.skills-section {
+/* .skills-section {
     flex: 1;
     background-color: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+} */
 
 .general-info .main {
     display: flex;
-    /* flex-direction: row; */
     gap: 20px;
     justify-content: space-between;
+}
+
+.dot-info-container{
+    display: flex;
+    gap:15px;
+    height: 30px;
 }
 
 /* .skills-section::before { */

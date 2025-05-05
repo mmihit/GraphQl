@@ -163,8 +163,8 @@ export class LineGraph {
 
     render() {
         this.draw.clear();
-
-        const points = this.data.map(d => [this.scaleX(d.date), this.scaleY(d.xp)]);
+        const points = this.data.map(d => [this.scaleX(d.date), this.scaleY(d.xp),d]);
+        // const data=this.data
         let pathString = `M ${points[0][0]},${points[0][1]}`;
         for (let i = 1; i < points.length; i++) {
             const [currX, currY] = points[i];
@@ -175,17 +175,28 @@ export class LineGraph {
             .fill('none')
             .stroke({ color: '#27548A', width: 2 });
 
-        points.forEach(([x, y]) => {
+        points.forEach(([x, y,data]) => {
             const dataPoint = this.draw.circle(this.dotRadius * 2) 
                 .center(x, y)
                 .fill('#DDA853');
+            
 
             dataPoint.on('mouseover', function () {
                 dataPoint.radius(6);
+                const infoDotsContainer=document.getElementById('dot-info-container')
+                // console.log(data)
+                // console.log(count)
+                // console.log(data[count])
+                infoDotsContainer.innerHTML=`
+                <h3 style=color:var(--yellow)>${data.name}</h3>
+                <h3 style=color:var(--yellow)>Current xp:${data.xp} Bytes</h3>
+                `
             });
 
             dataPoint.on('mouseout', function () {
                 dataPoint.radius(4);
+                const infoDotsContainer=document.getElementById('dot-info-container')
+                infoDotsContainer.innerHTML=""
             });
         });
     }
