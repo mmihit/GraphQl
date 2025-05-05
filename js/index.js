@@ -1,8 +1,6 @@
 
-import { handleLoginEvents } from "./login.js";
 import { queryData } from "./query.js";
-import { login, profile } from "./templat.js";
-import { moduleInfo } from "./moduleViewData.js";
+import { loadHtmlContent } from "./renderPage.js";
 
 
 const token = localStorage.getItem("jwt");
@@ -13,38 +11,19 @@ async function App() {
             const user = await queryData(token, "{user{id}}");
             if (user) {
                 console.log("Profile Page of user : ", user);
-                renderProfile();
-                console.log(moduleInfo());
+                loadHtmlContent('home')
             } else {
                 console.log("Login Page of user : ");
-                renderLogin();
+                loadHtmlContent('login')
             }
         } else {
             console.log("Login Page of user : ");
-            renderLogin();
+            loadHtmlContent('login');
         }
     } catch (error) {
         console.error("Error initializing app:", error);
-        renderLogin();
+        loadHtmlContent('login')
     }
-}
-
-export function addScript(fileName) {f
-    const indexScript = document.createElement("script");
-    indexScript.type = "module";
-    indexScript.src = fileName;
-    document.body.appendChild(indexScript);
-}
-
-export function renderProfile() {
-
-    document.body.innerHTML = profile;
-}
-
-export function renderLogin() {
-
-    document.body.innerHTML = login
-    handleLoginEvents();
 }
 
 App();

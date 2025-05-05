@@ -1,6 +1,6 @@
 import { queryData } from "./query.js";
 
-const queryHeaderInfo = `
+const queryheaderData = `
 {
     user {
         firstName
@@ -17,7 +17,7 @@ const queryHeaderInfo = `
 }`
 
 
-export const headerInfo = {
+const headerData = {
     fullName: "",
     totalUp: 0,
     totalUpBonus: 0,
@@ -25,17 +25,16 @@ export const headerInfo = {
     auditRatio: 0,
     level: 0,
     totalXp : 0,
-    unit : ""
 };
 
-export async function HeaderInfo() {
+export async function HeaderData() {
 
     const token = localStorage.getItem("jwt");
 
     if (!token) return null;
 
     try {
-        const data = await queryData(token, queryHeaderInfo);
+        const data = await queryData(token, queryheaderData);
 
         if (!data || !data.user || !data.user[0]) return null;
 
@@ -43,28 +42,24 @@ export async function HeaderInfo() {
         const transactions = data.transaction || [];
         let level = 0;
         
-        headerInfo.fullName = `${user.firstName} ${user.lastName}`;
-        headerInfo.totalUp = user.totalUp || 0;
-        headerInfo.totalUpBonus = user.totalUpBonus || 0;
-        headerInfo.totalDown = user.totalDown || 0;
-        headerInfo.auditRatio = user.auditRatio.toFixed(1) || 0;
+        headerData.fullName = `${user.firstName} ${user.lastName}`;
+        headerData.totalUp = user.totalUp || 0;
+        headerData.totalUpBonus = user.totalUpBonus || 0;
+        headerData.totalDown = user.totalDown || 0;
+        headerData.auditRatio = user.auditRatio.toFixed(1) || 0;
+        headerData.totalXp=0;
         transactions.forEach(element => {
             if (element.type == "level") {
-                (element.amount > headerInfo.level) ? headerInfo.level = element.amount : headerInfo.level = headerInfo.level;
+                (element.amount > headerData.level) ? headerData.level = element.amount : headerData.level = headerData.level;
             } else {
-                headerInfo.totalXp += element.amount;
+                headerData.totalXp += element.amount;
             }
         });
-
-        headerInfo.unit = "KB";
-        if (headerInfo.totalXp  >= 1000000) {
-            headerInfo.totalXp  = (headerInfo.totalXp  / 1000000).toFixed(2)
-            headerInfo.unit = "MB";
-        } else headerInfo.totalXp  = Math.round(headerInfo.totalXp  / 1000);
     
 
     } catch (error) {
         console.error("Failed to fetch header info:", error);
     }
-    return headerInfo;
+    console.log(headerData)
+    return headerData;
 }

@@ -17,15 +17,22 @@ let moduleData = [];
 
 export async function moduleInfo() {
 
-    const token = localStorage.getItem('jwt');
-    const data = await queryData(token, querymoduleInfo);
+  const token = localStorage.getItem('jwt');
+  const data = await queryData(token, querymoduleInfo);
 
-    data.transaction.forEach(element => {
-        moduleData.push({
-            name: element.object.name,
-            amount: element.amount,
-            date: new Date(element.createdAt)
-        })
-    });
-    return moduleData;
+  moduleData=[]
+
+  var total = 0
+
+  if (!data) return;
+
+  data.transaction.forEach(element => {
+    total+=element.amount
+      moduleData.push({
+          name: element.object.name,
+          xp: total,
+          date: new Date(element.createdAt)
+      })
+  });
+  return moduleData;
 }

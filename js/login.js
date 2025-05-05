@@ -1,7 +1,7 @@
 import { queryData } from "./query.js";
-import { renderProfile } from "./index.js";
+import { loadHtmlContent } from "./renderPage.js";
 
-async function login (identifier, password) {
+async function login(identifier, password) {
 
     const encodeLoginToBase64 = btoa(`${identifier}:${password}`);
     console.log(encodeLoginToBase64);
@@ -18,9 +18,9 @@ async function login (identifier, password) {
             const token = await respons.json();
             localStorage.setItem('jwt', token);
 
-            setTimeout(async() => {
+            setTimeout(async () => {
                 if (await queryData(token, "{user{id}}")) {
-                    renderProfile();
+                    loadHtmlContent('home')
                 }
             }, 100)
         } else {
@@ -41,5 +41,5 @@ export function handleLoginEvents() {
         login(identifier.value, password.value);
         identifier.value = "";
         password.value = "";
-    } )
+    })
 }

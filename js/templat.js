@@ -17,14 +17,14 @@ const login = `
 
 const profile = `
 
-     <header>
+    <header>
         <div class="container">
             <div class="username-box">
-                <h1>Welcome, Mohammed Mihit</h1>
+                <h1 id="username-text"></h1>
             </div>
 
             <div class="logout-section">
-                <button type="button" id="logout-btn">Logout</button>
+                <button id="logout-btn">Logout</button>
             </div>
 
         </div>
@@ -36,36 +36,47 @@ const profile = `
                 <h3 style="font-weight: 800; text-align: center;">General Informations</h3>
                 <div class="main">
                     <div class="xp-and-level-box">
+                        <h2>Level & Xp</h2>
                         <div class="level-box">
-                            <h2>Level 24</h2>
+                            <div id="drawing-level"></div>
                         </div>
                         <div class="xp-box">
-                            <h2>597 Kb</h2>
+                            <p class="xp-text" id="xp-text"></p>
                         </div>
                     </div>
                     <div class="audit-ratio-box">
                         <h3>audits info</h3>
                         <div class="audit-details">
-                            <div class="stats done"></div>
-                            <div class="stats received"></div>
+                            <div class="stats-box">
+                                <div class="audit-graph" id="audit-graph-done"></div>
+                                <p id="done-text">Done:</p>
+                            </div>
+                            <div class="stats-box">
+                                <div class="audit-graph" id="audit-graph-received"></div>
+                                <p id="received-text">Received:</p>
+                            </div>
                         </div>
                         <div class="audit-main">
-                            <div class="audit-ratio"></div>
+                            <div class="ratio-box">
+                                <p class="ratio-text" id="ratio-text"></p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-        <div class="skills-modules-wrapper">
-            <div class="skills-section">
-                <h3 style="font-weight: 800;">skills</h3>
+
+
+
+            <div class="skills-modules-wrapper">
+                <div class="module-section" id="module-section">
+                    <h3 style="font-weight: 800;">module</h3>
+                    <div class="module-graph" id="module-graph"></div>
+                </div>
             </div>
-            <div class="module-section">
-                <h3 style="font-weight: 800;">module</h3>
-            </div>
-        </div>
         </div>
     </main>
+    <script type="module" src=""
 `;
 
 export {login, profile}
