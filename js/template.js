@@ -32,7 +32,7 @@ const profile = `
 
     <main>
         <div class="container">
-            <div class="general-info">
+            <div class="general-info section-box">
                 <h3 style="font-weight: 800; text-align: center;">General Informations</h3>
                 <div class="main">
                     <div class="xp-and-level-box">
@@ -65,19 +65,24 @@ const profile = `
                 </div>
             </div>
 
-
-
-
-            <div class="skills-modules-wrapper">
-                <div class="module-section" id="module-section">
+           
+                <div class="progress-xp-section section-box" id="progress-xp-section">
                     <h3 style="font-weight: 800;">module</h3>
                     <div class="dot-info-container" id="dot-info-container"></div>
-                    <div class="module-graph" id="module-graph"></div>
+                    <div class="progress-xp-graph" id="progress-xp-graph"></div>
                 </div>
-            </div>
+            
+                <div class="xp-earned-by-project-section section-box" id="xp-earned-by-project-section">
+                    <h3 style="font-weight: 800;">xp earned by project</h3>
+                    <div class="xp-earned-by-project-graph" id="xp-earned-by-project-graph"></div>
+                    <div class="project-info" id="project-info">
+                        <h3 class="details">Project Name: <span>-</h3>
+                        <h3 class="details">Xp Earned: <span>-</span></h3>  
+                    </div>
+                </div>
         </div>
     </main>
-    <script type="module" src=""
+    <script type="module" src="">
 `;
 
 export { login, profile }

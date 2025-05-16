@@ -24,7 +24,7 @@ const headerData = {
     totalDown: 0,
     auditRatio: 0,
     level: 0,
-    totalXp : 0,
+    totalXp: 0,
 };
 
 export async function HeaderData() {
@@ -40,14 +40,13 @@ export async function HeaderData() {
 
         const user = data.user[0];
         const transactions = data.transaction || [];
-        let level = 0;
-        
+
         headerData.fullName = `${user.firstName} ${user.lastName}`;
         headerData.totalUp = user.totalUp || 0;
         headerData.totalUpBonus = user.totalUpBonus || 0;
         headerData.totalDown = user.totalDown || 0;
         headerData.auditRatio = user.auditRatio.toFixed(1) || 0;
-        headerData.totalXp=0;
+        headerData.totalXp = 0;
         transactions.forEach(element => {
             if (element.type == "level") {
                 (element.amount > headerData.level) ? headerData.level = element.amount : headerData.level = headerData.level;
@@ -55,7 +54,7 @@ export async function HeaderData() {
                 headerData.totalXp += element.amount;
             }
         });
-    
+
 
     } catch (error) {
         console.error("Failed to fetch header info:", error);

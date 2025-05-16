@@ -1,14 +1,14 @@
-import { login, profile } from "./templat.js";
+import { login, profile } from "./template.js";
 import { handleLoginEvents } from "./login.js";
-import { UserNameHelper, LevelHelper, AuditHelper, LineGraph } from "./createGraphs.js";
+import { UserNameHelper, LevelHelper, AuditHelper, ProgressXp, XpEarnedByProject } from "./createGraphs.js";
 import { HeaderData } from "./headerViewData.js";
 import { moduleInfo } from "./moduleViewData.js";
 
 
-export function renderProfile() {
+export async function renderProfile() {
     document.getElementById('dynamic-html').innerHTML = profile;
     addScript('./js/logout.js')
-    setTimeout(createGraphs(), 500);
+    setTimeout(await createGraphs(), 1000);
 }
 
 export function renderLogin() {
@@ -17,31 +17,34 @@ export function renderLogin() {
 }
 
 function addScript(fileName) {
-    const dynamicScriptElement=document.getElementById('dynamic-script')
+    const dynamicScriptElement = document.getElementById('dynamic-script')
     const indexScript = document.createElement("script");
 
-    dynamicScriptElement.innerHTML=''
+    dynamicScriptElement.innerHTML = ''
     indexScript.type = "module";
     indexScript.src = fileName + `?cacheBuster=${Date.now()}`;;
     dynamicScriptElement.appendChild(indexScript);
 }
 
 async function createGraphs() {
-    const headerData= await HeaderData();
-    const moduleData=await moduleInfo();
+    const headerData = await HeaderData();
+    const moduleData = await moduleInfo();
 
     const userNameHelper = new UserNameHelper(headerData.fullName);
     const auditHelper = new AuditHelper(headerData.totalUp, headerData.totalDown, headerData.totalUpBonus, headerData.auditRatio);
     const levelAndXpHelper = new LevelHelper(headerData.level, headerData.totalXp);
-    const lineGraph= new LineGraph(moduleData)
+    const progressXp = new ProgressXp(moduleData)
+    const xpEarnedByProject=new XpEarnedByProject(moduleData)
 
     userNameHelper.insertValueInDom();
     auditHelper.createGraph();
     levelAndXpHelper.createGraph();
-    lineGraph.render();
+    progressXp.render();
+    xpEarnedByProject.render();
 
     window.addEventListener('resize', () => {
-        lineGraph.resize(document.getElementById('module-section').offsetWidth - 43.9, 300)
+        progressXp.resize(document.getElementById('progress-xp-section').offsetWidth - 43.9, 300)
+        xpEarnedByProject.resize(document.getElementById('xp-earned-by-project-graph').offsetWidth-43.9)
     })
 }
 

@@ -47,8 +47,7 @@ export class LevelHelper {
     }
 
     insertValueInDom() {
-        console.log("xp xp xp:",this.xp)
-        if (this.xpHtmlElement) this.xpHtmlElement.textContent = `${formatBytes(this.xp)}`
+        if (this.xpHtmlElement) this.xpHtmlElement.textContent = `${formatBytes(this.xp)[0]} ${formatBytes(this.xp)[1]}`
     }
 
     createGraph() {
@@ -61,7 +60,7 @@ export class LevelHelper {
 
 export class AuditHelper {
     constructor(done, received, bonus, ratio) {
-        this.BYTES_PER_PIXEL = 130 / (1024 * 1024)
+        this.BYTES_PER_PIXEL = 130 / (1000 * 1000)
         this.height = 10
         this.done = done
         this.received = received
@@ -88,6 +87,7 @@ export class AuditHelper {
         this.doneDrawing.rect(this.BYTES_PER_PIXEL * this.done, this.height).attr({
             fill: colors.yellow
         })
+        console.log("bonus", this.bonus)
         if (this.bonus) {
             this.doneDrawing.rect(this.BYTES_PER_PIXEL * this.bonus, this.height).attr({
                 fill: colors.blue1,
@@ -102,8 +102,8 @@ export class AuditHelper {
     }
     insertValueInDom() {
         if (this.doneHtmlElement && this.receivedHtmlElement && this.ratioHtmlElement) {
-            this.doneHtmlElement.textContent += `${formatBytes(this.done)} + ${formatBytes(this.bonus)}`;
-            this.receivedHtmlElement.textContent += `${formatBytes(this.received)}`;
+            this.doneHtmlElement.textContent += `${Math.floor(formatBytes(this.done)[0] * 100) / 100}${formatBytes(this.done)[1]} ${Math.floor(formatBytes(this.bonus)[0] * 100) / 100}${formatBytes(this.bonus)[1]}`;
+            this.receivedHtmlElement.textContent += `${Math.round(formatBytes(this.received)[0] * 100) / 100}${formatBytes(this.received)[1]}`;
             this.ratioHtmlElement.textContent = `Ratio:${this.ratio}`
         }
 
@@ -119,18 +119,19 @@ export class AuditHelper {
     }
 }
 
-export class LineGraph {
+export class ProgressXp {
     constructor(data) {
-        this.container=document.getElementById('module-graph')
+        this.container = document.getElementById('progress-xp-graph')
         this.data = data;
         this.height = 300;
-        this.dotRadius = 4;  
-        this.margin = this.dotRadius;
-        
+        this.dotRadius = 4;
+        this.margin = 6;
+
         if (this.container) {
             this.container.innerHTML = '';
-            const moduleSection=document.getElementById('module-section')
-            this.width = moduleSection.offsetWidth - 43.9;  
+            console.log(this.container)
+            const moduleSection = document.getElementById('progress-xp-section')
+            this.width = moduleSection.offsetWidth - 43.9;
             this.draw = SVG().addTo(this.container).size(this.width, this.height);
         } else {
             console.error("Container element not found");
@@ -147,7 +148,7 @@ export class LineGraph {
     }
 
     scaleY(xp) {
-        const maxXP = Math.max(...this.data.map(d => d.xp));
+        const maxXP = Math.max(...this.data.map(d => d.xp.currentXp));
 
         const plotHeight = this.height - 2 * this.margin;
         return this.margin + plotHeight - (xp / maxXP) * plotHeight;
@@ -163,8 +164,7 @@ export class LineGraph {
 
     render() {
         this.draw.clear();
-        const points = this.data.map(d => [this.scaleX(d.date), this.scaleY(d.xp),d]);
-        // const data=this.data
+        const points = this.data.map(d => [this.scaleX(d.date), this.scaleY(d.xp.currentXp), d]);
         let pathString = `M ${points[0][0]},${points[0][1]}`;
         for (let i = 1; i < points.length; i++) {
             const [currX, currY] = points[i];
@@ -175,75 +175,154 @@ export class LineGraph {
             .fill('none')
             .stroke({ color: '#27548A', width: 2 });
 
-        points.forEach(([x, y,data]) => {
-            const dataPoint = this.draw.circle(this.dotRadius * 2) 
+        points.forEach(([x, y, data]) => {
+            const dataPoint = this.draw.circle(this.dotRadius * 2)
                 .center(x, y)
                 .fill('#DDA853');
-            
+
 
             dataPoint.on('mouseover', function () {
                 dataPoint.radius(6);
-                const infoDotsContainer=document.getElementById('dot-info-container')
-                // console.log(data)
-                // console.log(count)
-                // console.log(data[count])
-                infoDotsContainer.innerHTML=`
+                const infoDotsContainer = document.getElementById('dot-info-container')
+                infoDotsContainer.innerHTML = `
                 <h3 style=color:var(--yellow)>${data.name}</h3>
-                <h3 style=color:var(--yellow)>Current xp:${data.xp} Bytes</h3>
+                <h3 style=color:var(--yellow)>Current xp:${formatBytes(data.xp.currentXp)[0].toFixed(0)} ${formatBytes(data.xp.currentXp)[1]}</h3>
                 `
             });
 
             dataPoint.on('mouseout', function () {
                 dataPoint.radius(4);
-                const infoDotsContainer=document.getElementById('dot-info-container')
-                infoDotsContainer.innerHTML=""
+                const infoDotsContainer = document.getElementById('dot-info-container')
+                infoDotsContainer.innerHTML = ""
             });
         });
     }
 }
 
+export class XpEarnedByProject {
+    constructor(data) {
+        this.container = document.getElementById('xp-earned-by-project-graph');
+        this.data = data.filter(d => d.xp.amount >= 5000);
+        this.height = 300;
+        this.padding = 60;
+
+        if (this.container) {
+            this.container.innerHTML = '';
+            this.width = this.container.offsetWidth;
+            this.draw = SVG().addTo(this.container).size(this.width, this.height);
+        } else {
+            console.error("Container element not found");
+            return;
+        }
+    }
+
+
+    scaleY(xp) {
+        const maxXP = Math.max(...this.data.map(d => d.xp.amount));
+        if (maxXP === 0) return 0;
+
+        return this.height * (xp / maxXP);
+    }
+
+
+    drawAxes() {
+        const maxXP = Math.max(...this.data.map(d => d.xp.amount));
+
+        // X-axis
+        this.draw.line(this.padding, this.height, this.width, this.height)
+            .stroke({ width: 2, color: '#333' });
+
+        // Y-axis
+        this.draw.line(this.padding, this.height, this.padding)
+            .stroke({ width: 2, color: '#333' });
+
+        // Y-axis ticks and labels
+        const yTickCount = 5;
+        for (let i = 0; i <= yTickCount; i++) {
+            const y = this.height - (i / yTickCount) * (this.height);
+            const value = Math.round((i / yTickCount) * maxXP);
+
+            this.draw.line(this.padding - 5, y, this.padding, y)
+                .stroke({ width: 1, color: '#333' });
+
+            this.draw.text(`${formatBytes(value)[0]}`)
+                .font({ size: 12 })
+                .move(this.padding - 35, y);
+
+            this.draw.line(this.padding, y, this.width - this.padding, y)
+                .stroke({ width: 0.5, color: '#ccc', dasharray: '5,5' });
+        }
+    }
+
+    resize(width) {
+        if (width) this.width = width;
+
+        this.draw.size(this.width, this.height);
+        this.render();
+    }
+
+    render() {
+        if (!this.draw) return;
+
+        this.draw.clear();
+        this.drawAxes();
+
+        console.log(this.data)
+
+        // Calculate available width for bars
+        const availableWidth = this.width - (this.padding);
+        const barWidth = availableWidth / this.data.length;
+        const barPadding = barWidth * 0.2; // 20% of bar width as padding
+
+        // Draw the bars
+        this.data.forEach((d, i) => {
+
+            const xp = d.xp.amount;
+            const scaledHeight = this.scaleY(xp);
+
+            const x = this.padding + (i * barWidth) + (barPadding / 2);
+            const y = this.height - scaledHeight;
+            const width = barWidth - barPadding;
+
+            const rect = this.draw.rect(width, scaledHeight).attr({
+                x: x,
+                y: y,
+                fill: typeof colors !== 'undefined' && colors.blue1 ? colors.blue1 : '#3498db',
+                rx: 3,
+                ry: 3
+            });
+
+            rect.on('mouseover', () => {
+                document.getElementById('project-info').innerHTML = `
+                <h3 class="details">Project Name: <span>${d.name}</span></h3>
+                <h3 class="details">Xp Earned: <span>${formatBytes(d.xp.amount)[0]} ${formatBytes(d.xp.amount)[1]}</span></h3>
+                `
+            })
+
+            rect.on('mouseout', () => {
+                document.getElementById('project-info').innerHTML = `                
+                <h3 class="details">Project Name: <span>-</h3>
+                <h3 class="details">Xp Earned: <span>-</span></h3>`
+
+            })
+
+        });
+    }
+
+
+}
+
 function formatBytes(bytes) {
     if (bytes === 0 || isNaN(bytes) || bytes < 0) return "0 bytes";
-    
+
     const units = ["bytes", "KB", "MB", "GB", "TB"];
     const threshold = 1000;
-    
+
     let i = 0;
     while (bytes >= threshold && i < units.length - 1) {
-      bytes /= threshold;
-      i++;
+        bytes /= threshold;
+        i++;
     }
-    
-    let formattedValue;
-    if (i === 0) {
-      formattedValue = Math.round(bytes);
-    } else {
-      formattedValue = bytes.toFixed(2);
-    }
-    
-    return `${formattedValue} ${units[i]}`;
-  }
 
-
-
-
-// const xpData = [
-//     { xp: 10, date: "2023-01-01" },
-//     { xp: 100, date: "2023-02-01" },
-//     { xp: 200, date: "2023-02-12" },
-//     { xp: 100, date: "2023-03-01" },
-//     { xp: 150, date: "2023-04-01" },
-//     { xp: 250, date: "2025-02-05" }
-// ];
-
-
-
-// export const graphs={
-//     userName: userNameHelper,
-//     audit: auditHelper,
-//     levelAndXp:levelAndXpHelper
-// }
-
-// userNameHelper.insertValueInDom();
-// auditHelper.createGraph();
-// levelAndXpHelper.createGraph();
+    return [bytes, units[i]];
+}
