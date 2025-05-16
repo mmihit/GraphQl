@@ -59,6 +59,5 @@ export async function HeaderData() {
     } catch (error) {
         console.error("Failed to fetch header info:", error);
     }
-    console.log(headerData)
     return headerData;
 }

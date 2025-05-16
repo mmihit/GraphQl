@@ -22,7 +22,6 @@ export class LevelHelper {
         this.xpHtmlElement = document.getElementById('xp-text')
 
         const levelContainerElement = document.getElementById('drawing-level')
-        console.log(levelContainerElement)
         if (levelContainerElement) {
             levelContainerElement.innerHTML = ''
             this.draw = SVG().addTo(levelContainerElement).size(110, 110)
@@ -87,7 +86,6 @@ export class AuditHelper {
         this.doneDrawing.rect(this.BYTES_PER_PIXEL * this.done, this.height).attr({
             fill: colors.yellow
         })
-        console.log("bonus", this.bonus)
         if (this.bonus) {
             this.doneDrawing.rect(this.BYTES_PER_PIXEL * this.bonus, this.height).attr({
                 fill: colors.blue1,
@@ -129,7 +127,6 @@ export class ProgressXp {
 
         if (this.container) {
             this.container.innerHTML = '';
-            console.log(this.container)
             const moduleSection = document.getElementById('progress-xp-section')
             this.width = moduleSection.offsetWidth - 43.9;
             this.draw = SVG().addTo(this.container).size(this.width, this.height);
@@ -267,7 +264,6 @@ export class XpEarnedByProject {
         this.draw.clear();
         this.drawAxes();
 
-        console.log(this.data)
 
         // Calculate available width for bars
         const availableWidth = this.width - (this.padding);
