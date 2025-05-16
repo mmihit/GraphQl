@@ -9,8 +9,15 @@ async function App() {
     try {
         if (token) {
             const user = await queryData(token, "{user{id}}");
-            user ? loadHtmlContent('home') : loadHtmlContent('login');
+            if (user) {
+                console.log("Profile Page of user : ", user);
+                loadHtmlContent('home')
+            } else {
+                console.log("Login Page of user : ");
+                loadHtmlContent('login')
+            }
         } else {
+            console.log("Login Page of user : ");
             loadHtmlContent('login');
         }
     } catch (error) {

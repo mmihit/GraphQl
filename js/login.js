@@ -38,6 +38,7 @@ export function handleLoginEvents() {
         event.preventDefault()
         const identifier = document.getElementById("email");
         const password = document.getElementById("password");
+        login(identifier.value, password.value);
         identifier.value = "";
         password.value = "";
     })
