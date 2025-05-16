@@ -67,7 +67,7 @@ const profile = `
 
            
                 <div class="progress-xp-section section-box" id="progress-xp-section">
-                    <h3 style="font-weight: 800;">module</h3>
+                    <h3 style="font-weight: 800;">Progress Xp</h3>
                     <div class="dot-info-container" id="dot-info-container"></div>
                     <div class="progress-xp-graph" id="progress-xp-graph"></div>
                 </div>
