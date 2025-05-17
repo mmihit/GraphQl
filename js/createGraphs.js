@@ -46,7 +46,7 @@ export class LevelHelper {
     }
 
     insertValueInDom() {
-        if (this.xpHtmlElement) this.xpHtmlElement.textContent = `${formatBytes(this.xp)[0]} ${formatBytes(this.xp)[1]}`
+        if (this.xpHtmlElement) this.xpHtmlElement.textContent = `${(formatBytes(this.xp)[0]).toFixed(2)} ${formatBytes(this.xp)[1]}`
     }
 
     createGraph() {
