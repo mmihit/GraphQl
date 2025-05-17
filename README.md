@@ -28,7 +28,7 @@ js/
 
 ## Getting Started
 
-Open this link `https://mmihit.github.io/GraphQl/`.
+Open this link https://zone01-graphql.netlify.app/.
 
 or:
 1. Clone the repository `git clone https://github.com/mmihit/GraphQl.git`
